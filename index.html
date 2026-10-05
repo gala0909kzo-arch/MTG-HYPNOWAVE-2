@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>GALA_PROD — MTG HYPNOWAVE 2</title>
+
+<style>
+@font-face{
+font-family:ChineseRocks;
+src:url("ChineseRocks.otf") format("truetype");
+font-display:swap
+}
+
+*{box-sizing:border-box}
+
+html,body{
+margin:0;
+padding:0;
+background:#08090b;
+color:#fff;
+font-family:Arial,sans-serif;
+overflow-x:hidden
+}
+
+body{
+min-height:100vh;
+position:relative;
+background:
+radial-gradient(circle at 15% 20%,rgba(0,220,255,.13),transparent 30%),
+radial-gradient(circle at 85% 70%,rgba(255,20,50,.16),transparent 32%),
+#08090b
+}
+
+body:before{
+content:"";
+position:fixed;
+inset:0;
+pointer-events:none;
+opacity:.16;
+background:
+repeating-linear-gradient(
+0deg,
+rgba(255,255,255,.04) 0px,
+rgba(255,255,255,.04) 1px,
+transparent 1px,
+transparent 4px
+);
+mix-blend-mode:overlay;
+z-index:20
+}
+
+body:after{
+content:"";
+position:fixed;
+width:500px;
+height:500px;
+left:-180px;
+top:35%;
+background:#00eaff;
+filter:blur(170px);
+opacity:.07;
+pointer-events:none;
+animation:float 7s ease-in-out infinite alternate
+}
+
+@keyframes float{
+from{transform:translate(0,-40px)}
+to{transform:translate(250px,70px)}
+}
+
+.container{
+width:min(1120px,92%);
+margin:auto;
+padding:25px 0 65px
+}
+
+.top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:35px
+}
+
+.artist{
+font-family:ChineseRocks,Impact,sans-serif;
+font-size:26px;
+letter-spacing:2px;
+text-shadow:3px 3px 0 #111
+}
+
+.artist span{
+color:#00eaff;
+text-shadow:0 0 15px #00eaff
+}
+
+.live{
+font-size:10px;
+font-weight:900;
+letter-spacing:2px;
+padding:8px 13px;
+border:1px solid #ff1744;
+color:#ff365d;
+box-shadow:
+0 0 12px rgba(255,0,50,.35),
+inset 0 0 12px rgba(255,0,50,.08);
+animation:pulse 2s infinite
+}
+
+@keyframes pulse{
+50%{box-shadow:0 0 25px rgba(255,0,50,.55)}
+}
+
+.hero{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:48px;
+align-items:center
+}
+
+.cover-wrap{
+position:relative;
+transform:rotate(-1deg);
+animation:coverFloat 5s ease-in-out infinite
+}
+
+@keyframes coverFloat{
+50%{transform:rotate(1deg) translateY(-7px)}
+}
+
+.cover-wrap:before{
+content:"";
+position:absolute;
+inset:-9px;
+border:2px solid #00eaff;
+transform:rotate(2deg);
+z-index:-1;
+box-shadow:0 0 25px rgba(0,234,255,.3)
+}
+
+.cover-wrap:after{
+content:"";
+position:absolute;
+inset:-14px;
+border:2px solid #ff1744;
+transform:rotate(-3deg);
+z-index:-2;
+box-shadow:0 0 30px rgba(255,20,60,.25)
+}
+
+.cover{
+width:100%;
+display:block;
+aspect-ratio:1/1;
+object-fit:cover;
+border-radius:4px;
+box-shadow:
+8px 10px 0 rgba(0,0,0,.45),
+0 0 35px rgba(0,234,255,.25),
+0 0 65px rgba(255,20,50,.2)
+}
+
+.cover:after{
+content:""
+}
+
+.tag{
+display:inline-block;
+font-family:ChineseRocks,Impact,sans-serif;
+font-size:14px;
+letter-spacing:2px;
+padding:7px 12px;
+margin-bottom:17px;
+background:#fff;
+color:#08090b;
+transform:skew(-8deg);
+box-shadow:5px 5px 0 #ff1744
+}
+
+h1{
+font-family:ChineseRocks,Impact,sans-serif;
+font-size:clamp(55px,8vw,100px);
+line-height:.78;
+letter-spacing:2px;
+margin:0 0 25px;
+text-transform:uppercase;
+transform:skew(-3deg)
+}
+
+.red{
+color:#ff1744;
+text-shadow:
+3px 3px 0 #111,
+0 0 12px rgba(255,0,50,.55),
+0 0 35px rgba(255,0,50,.25)
+}
+
+.blue{
+color:#00eaff;
+text-shadow:
+3px 3px 0 #111,
+0 0 12px rgba(0,234,255,.6),
+0 0 35px rgba(0,234,255,.25)
+}
+
+.subtitle{
+font-size:14px;
+line-height:1.7;
+color:#aaa;
+max-width:450px
+}
+
+.subtitle b{
+color:#fff
+}
+
+.player{
+margin-top:28px;
+padding:21px;
+background:
+linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.025));
+border:1px solid rgba(255,255,255,.14);
+box-shadow:
+8px 8px 0 rgba(255,20,50,.12),
+-5px -5px 0 rgba(0,234,255,.08);
+backdrop-filter:blur(14px)
+}
+
+.track-top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:17px
+}
+
+.track-name{
+font-family:ChineseRocks,Impact,sans-serif;
+font-size:19px;
+letter-spacing:1px
+}
+
+.track-time{
+font-size:11px;
+color:#888
+}
+
+.progress{
+height:6px;
+width:100%;
+background:#292b30;
+cursor:pointer;
+overflow:hidden
+}
+
+.progress-bar{
+height:100%;
+width:0;
+background:linear-gradient(90deg,#ff1744 0%,#ff1744 45%,#00eaff 100%);
+box-shadow:0 0 14px #00eaff;
+transition:width .08s linear
+}
+
+.controls{
+display:flex;
+align-items:center;
+gap:15px;
+margin-top:18px
+}
+
+.play{
+width:53px;
+height:53px;
+border:0;
+border-radius:50%;
+background:linear-gradient(135deg,#ff1744,#00eaff);
+color:#fff;
+font-size:18px;
+font-weight:900;
+cursor:pointer;
+box-shadow:
+0 0 20px rgba(0,234,255,.3),
+0 0 20px rgba(255,20,50,.2);
+transition:.2s
+}
+
+.play:hover{
+transform:scale(1.08);
+box-shadow:
+0 0 35px rgba(0,234,255,.5),
+0 0 35px rgba(255,20,50,.35)
+}
+
+.vol{
+flex:1
+}
+
+input[type=range]{
+width:100%;
+accent-color:#00eaff;
+cursor:pointer
+}
+
+.cta{
+display:flex;
+gap:12px;
+margin-top:22px;
+flex-wrap:wrap
+}
+
+.btn{
+font-family:ChineseRocks,Impact,sans-serif;
+font-size:14px;
+letter-spacing:1px;
+padding:13px 20px;
+text-decoration:none;
+cursor:pointer;
+transition:.2s
+}
+
+.presave{
+background:#fff;
+color:#08090b;
+box-shadow:5px 5px 0 #ff1744
+}
+
+.follow{
+color:#fff;
+border:1px solid #00eaff;
+background:rgba(0,234,255,.06);
+box-shadow:5px 5px 0 rgba(0,234,255,.25)
+}
+
+.btn:hover{
+transform:translate(-2px,-2px)
+}
+
+.info{
+display:flex;
+justify-content:space-between;
+gap:20px;
+flex-wrap:wrap;
+margin-top:75px;
+padding-top:25px;
+border-top:1px solid rgba(255,255,255,.12)
+}
+
+.info-box small{
+display:block;
+font-size:8px;
+letter-spacing:2px;
+color:#666;
+margin-bottom:6px
+}
+
+.info-box strong{
+font-family:ChineseRocks,Impact,sans-serif;
+font-size:16px;
+letter-spacing:1px
+}
+
+.footer{
+text-align:center;
+margin-top:55px;
+font-size:9px;
+letter-spacing:3px;
+color:#444
+}
+
+@media(max-width:800px){
+.container{padding-top:20px}
+.hero{
+grid-template-columns:1fr;
+gap:35px
+}
+.cover{
+max-width:650px;
+margin:auto
+}
+h1{
+font-size:65px
+}
+}
+
+@media(max-width:450px){
+h1{
+font-size:55px
+}
+.artist{
+font-size:21px
+}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="top">
+<div class="artist">
+GALA<span>_PROD</span>
+</div>
+
+<div class="live">
+NEW RELEASE
+</div>
+</div>
+
+<div class="hero">
+
+<div class="cover-wrap">
+<img src="IMG_2601.jpg" class="cover" alt="MTG HYPNOWAVE 2">
+</div>
+
+<div>
+
+<div class="tag">
+PRE-SAVE / SINGLE
+</div>
+
+<h1>
+<span class="red">MTG</span><br>
+<span class="blue">HYPNOWAVE</span><br>
+<span class="red">2</span>
+</h1>
+
+<div class="subtitle">
+A new sound from <b>gala_prod</b>.<br>
+Turn it up. Feel the distortion. Enter the wave.
+</div>
+
+<div class="player">
+
+<div class="track-top">
+<div class="track-name">
+MTG HYPNOWAVE 2
+</div>
+
+<div class="track-time" id="time">
+0:00 / 0:00
+</div>
+</div>
+
+<div class="progress" id="progress">
+<div class="progress-bar" id="bar"></div>
+</div>
+
+<div class="controls">
+
+<button class="play" id="play">
+▶
+</button>
+
+<div class="vol">
+<input id="volume" type="range" min="0" max="1" step=".01" value=".9">
+</div>
+
+</div>
+
+<audio id="audio" preload="metadata">
+<source src="MTG HYPNOWAVE 2.wav" type="audio/wav">
+</audio>
+
+</div>
+
+<div class="cta">
+
+<a class="btn presave" href="#" onclick="presave(event)">
+PRE-SAVE NOW
+</a>
+
+<a class="btn follow" href="#" onclick="follow(event)">
+FOLLOW @GALA_PROD
+</a>
+
+</div>
+
+</div>
+</div>
+
+<div class="info">
+
+<div class="info-box">
+<small>ARTIST</small>
+<strong>GALA_PROD</strong>
+</div>
+
+<div class="info-box">
+<small>TRACK</small>
+<strong>MTG HYPNOWAVE 2</strong>
+</div>
+
+<div class="info-box">
+<small>STYLE</small>
+<strong>FUNK / PHONK</strong>
+</div>
+
+<div class="info-box">
+<small>STATUS</small>
+<strong>COMING SOON</strong>
+</div>
+
+</div>
+
+<div class="footer">
+© 2026 GALA_PROD — ALL RIGHTS RESERVED
+</div>
+
+</div>
+
+<script>
+const audio=document.getElementById("audio");
+const play=document.getElementById("play");
+const progress=document.getElementById("progress");
+const bar=document.getElementById("bar");
+const time=document.getElementById("time");
+const volume=document.getElementById("volume");
+
+play.onclick=()=>{
+if(audio.paused){
+audio.play();
+play.textContent="Ⅱ";
+}else{
+audio.pause();
+play.textContent="▶";
+}
+};
+
+audio.addEventListener("loadedmetadata",()=>{
+time.textContent="0:00 / "+format(audio.duration);
+});
+
+audio.addEventListener("timeupdate",()=>{
+if(audio.duration){
+bar.style.width=(audio.currentTime/audio.duration*100)+"%";
+time.textContent=format(audio.currentTime)+" / "+format(audio.duration);
+}
+});
+
+audio.addEventListener("ended",()=>{
+play.textContent="▶";
+bar.style.width="0%";
+});
+
+progress.onclick=e=>{
+const rect=progress.getBoundingClientRect();
+const percent=(e.clientX-rect.left)/rect.width;
+audio.currentTime=percent*audio.duration;
+};
+
+volume.oninput=()=>{
+audio.volume=volume.value;
+};
+
+function format(sec){
+if(!isFinite(sec))return"0:00";
+const m=Math.floor(sec/60);
+const s=Math.floor(sec%60).toString().padStart(2,"0");
+return m+":"+s;
+}
+
+function presave(e){
+e.preventDefault();
+alert("PRE-SAVE LINK COMING SOON");
+}
+
+function follow(e){
+e.preventDefault();
+alert("@gala_prod");
+}
+</script>
+
+</body>
+</html>
